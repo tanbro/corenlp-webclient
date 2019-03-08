@@ -36,6 +36,7 @@ setup(
         'dataclasses;python_version<"3.7"',
         'requests',
         'emoji-data',
+        'dataclasses-jsonschema',
     ],
 
     tests_require=[
