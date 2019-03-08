@@ -24,7 +24,7 @@ setup(
         # guess-next-dev:	automatically guesses the next development version (default)
         # post-release:	generates post release versions (adds postN)
         'version_scheme': 'guess-next-dev',
-        'write_to': 'src/corenlp_webclient/_version.py',
+        'write_to': 'src/corenlp_webclient/version.py',
     },
     setup_requires=[
         'pytest-runner',
@@ -41,6 +41,7 @@ setup(
 
     tests_require=[
         'pytest',
+        'python-dotenv',
     ],
     test_suite='tests',
 
