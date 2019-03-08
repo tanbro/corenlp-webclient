@@ -14,7 +14,7 @@ setup(
     package_dir={'': 'src'},
 
     description="A client library for CoreNLP server's simple web API.",
-    # url='https://github.com/tanbro/emoji-data',
+    url='https://github.com/tanbro/corenlp-webclient',
     author='liu xue yan',
     author_email='liu_xue_yan@foxmail.com',
     license='AGPLv3+',

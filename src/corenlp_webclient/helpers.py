@@ -77,18 +77,18 @@ def join_chain_words(data: Dict[str, Any], s: str = WORD_SEP) -> str:
 def extract_words(data: Dict[str, Any]) -> List[List[str]]:
     result = list()
     for sent in data['sentences']:
-        ls = list()
+        toks = list()
         for token_obj in sent['tokens']:
-            ls.append(token_obj['word'])
-        result.append(ls)
+            toks.append(token_obj['word'])
+        result.append(toks)
     return result
 
 
 def join_extract_words(data: Dict[str, Any], word_sep: str = WORD_SEP, line_sep=os.linesep) -> str:
     result = list()
     for sent in data['sentences']:
-        ls = list()
+        toks = list()
         for token_obj in sent['tokens']:
-            ls.append(token_obj['word'])
-        result.append(word_sep.join(ls))
+            toks.append(token_obj['word'])
+        result.append(word_sep.join(toks))
     return line_sep.join(result)

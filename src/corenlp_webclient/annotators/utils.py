@@ -11,10 +11,6 @@ def create_annotator(annotator_class: type, *args, **kwargs) -> BaseAnnotator:
 def make_properties(*annotators: BaseAnnotator) -> Dict[str, Any]:
     properties_dict = {'outputFormat': 'json'}
     for annotator in annotators:
-        print('>>>>', annotator)
-        print('>>>> type:', type(annotator))
-        print('>>>> name:', annotator.name)
-        print('>>>> clas: ', annotator.options_class)
         if 'annotators' not in properties_dict:
             properties_dict['annotators'] = annotator.name
         else:
