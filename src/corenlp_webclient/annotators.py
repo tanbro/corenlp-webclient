@@ -16,11 +16,19 @@ class BaseAnnotator:  # pylint:disable=too-few-public-methods
 
     def __init__(self, options: Optional[BaseOptions] = None):
         self._options = options
+        self._options_dict = {}
 
-    def make_options_dict(self) -> Dict[str, Any]:
-        if not self._options:
-            return dict()
-        return {'.'.join([self.name, _snake_to_camel(k)]): v for k, v in self._options.to_dict().items()}
+    def get_options_dict(self) -> Dict[str, Any]:
+        if self._options_dict:
+            return self._options_dict
+        if self._options:
+            self._options_dict = {'.'.join([self.name, _snake_to_camel(
+                k)]): v for k, v in self._options.to_dict().items()}
+        return self._options_dict
+
+    @property
+    def options_dict(self) -> Dict[str, Any]:
+        return self.get_options_dict()
 
 
 class WordsToSentenceAnnotator(BaseAnnotator):  # pylint:disable=too-few-public-methods

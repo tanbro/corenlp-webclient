@@ -19,7 +19,7 @@ class NewlineIsSentenceBreak(Enum):
     TWO = 'two'
 
 
-@dataclass
+@dataclass(order=True, frozen=True)
 class WordsToSentenceOptions(BaseOptions):
     """Options of Words-To-Sentence Annotator
 

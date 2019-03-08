@@ -1,7 +1,7 @@
 import codecs
 import json
 from collections.abc import Iterable
-from typing import List, Optional, Union
+from typing import Optional, Union, Iterator
 
 import requests
 
@@ -19,7 +19,7 @@ class CoreNlpWebClient:  # pylint:disable=too-few-public-methods
         self._session = session
         self._timeout = timeout
 
-    def api_call(self, text: str, annotators: Union[List[BaseAnnotator], BaseAnnotator] = None, timeout: Union[int, float] = None):
+    def api_call(self, text: str, annotators: Union[Iterator[BaseAnnotator], BaseAnnotator] = None, timeout: Union[int, float] = None):
         text = text.strip()
         text = rm_cjk_space(text)
         text, emoji_map = backup_emoji(text)

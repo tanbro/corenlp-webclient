@@ -115,7 +115,5 @@ def make_properties(*annotators: BaseAnnotator) -> Dict[str, Any]:
             properties_dict['annotators'] = annotator.name
         else:
             properties_dict['annotators'] += ',{}'.format(annotator.name)
-        options_dict = annotator.make_options_dict()
-        if options_dict:
-            properties_dict.update(options_dict)
+        properties_dict.update(annotator.options_dict)
     return properties_dict
