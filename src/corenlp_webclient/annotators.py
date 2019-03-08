@@ -22,8 +22,10 @@ class BaseAnnotator:  # pylint:disable=too-few-public-methods
         if self._options_dict:
             return self._options_dict
         if self._options:
-            self._options_dict = {'.'.join([self.name, _snake_to_camel(
-                k)]): v for k, v in self._options.to_dict().items()}
+            self._options_dict = {
+                '.'.join([self.name, _snake_to_camel(k)]): v
+                for k, v in self._options.to_dict().items()
+            }
         return self._options_dict
 
     @property
