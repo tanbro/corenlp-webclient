@@ -26,11 +26,11 @@ class WordsToSentenceOptions(BaseOptions):
     see: https://stanfordnlp.github.io/CoreNLP/ssplit.html
     """
     eolonly: Optional[bool] = None
-    isOneSentence: Optional[bool] = None
-    newlineIsSentenceBreak: Optional[NewlineIsSentenceBreak] = None
-    boundaryMultiTokenRegex: Optional[str] = None
-    boundaryTokenRegex: Optional[str] = None
-    boundariesToDiscard: Optional[str] = None
-    htmlBoundariesToDiscard: Optional[str] = None
-    tokenPatternsToDiscard: Optional[str] = None
-    boundaryFollowersRegex: Optional[str] = None
+    is_one_sentence: Optional[bool] = None
+    newline_is_sentence_break: Optional[NewlineIsSentenceBreak] = None
+    boundary_multi_token_regex: Optional[str] = None
+    boundary_token_regex: Optional[str] = None
+    boundaries_to_discard: Optional[str] = None
+    html_boundaries_to_discard: Optional[str] = None
+    token_patterns_to_discard: Optional[str] = None
+    boundary_followers_regex: Optional[str] = None

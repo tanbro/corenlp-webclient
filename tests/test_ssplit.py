@@ -34,7 +34,7 @@ class SsplitTestCase(unittest.TestCase):
         '''
         result = CoreNlpWebClient(URL).api_call(
             text,
-            make_annotator(boundaryTokenRegex=r'[.。]|[!?！？]+')
+            make_annotator(boundary_token_regex=r'[.。]|[!?！？]+')
         )
         self.assertEqual(len(result['sentences']), 2)
         self.assertEqual(join_extract_words(result), segmented.strip())
@@ -62,7 +62,7 @@ class SsplitTestCase(unittest.TestCase):
         快速 的 棕色 狐狸 跳过 了 懒惰 的 狗 ， 狗 却 没有 反应 。
         '''
         result = CoreNlpWebClient(URL).api_call(
-            text, make_annotator(boundaryTokenRegex=r'[.。]|[!?！？]+'))
+            text, make_annotator(boundary_token_regex=r'[.。]|[!?！？]+'))
         self.assertEqual(join_chain_words(result), segmented.strip())
         self.assertEqual(len(result['sentences']), 1)
 
