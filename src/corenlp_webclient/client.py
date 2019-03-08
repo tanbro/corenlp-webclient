@@ -5,9 +5,8 @@ from typing import List, Optional, Union
 
 import requests
 
-from .annotators.baseannotator import BaseAnnotator
-from .annotators.utils import make_properties
-from .helpers import backup_emoji, restore_emoji, rm_cjk_space
+from .annotators import BaseAnnotator
+from .helpers import backup_emoji, restore_emoji, rm_cjk_space, make_properties
 
 __all__ = ['CoreNlpWebClient']
 

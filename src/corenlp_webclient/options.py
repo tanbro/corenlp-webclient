@@ -2,10 +2,13 @@ from enum import Enum
 from typing import Optional
 
 from dataclasses import dataclass
+from dataclasses_jsonschema import JsonSchemaMixin
 
-from .baseoptions import BaseOptions
+__all__ = ['BaseOptions', 'NewlineIsSentenceBreak', 'WordsToSentenceOptions']
 
-__all__ = ['NewlineIsSentenceBreak', 'WordsToSentenceOptions']
+
+class BaseOptions(JsonSchemaMixin):
+    pass
 
 
 class NewlineIsSentenceBreak(Enum):
