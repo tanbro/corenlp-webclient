@@ -1,5 +1,7 @@
+import os
 import re
-from typing import Any, Dict, Tuple
+from itertools import chain
+from typing import Any, Dict, List, Tuple
 
 from emoji_data import EmojiData
 
@@ -18,7 +20,11 @@ def rm_cjk_space(s):  # type: (str)->str
     return REGEX_CJK_SPACE.sub(r'\g<c>', s.strip())
 
 
-def bakcup_emoji(text: str) -> Tuple[str, Dict[int, str]]:
+def rm_emoji(s):  # type: (str)->str
+    return EmojiData.get_regex_pattern().sub('', s)
+
+
+def backup_emoji(text: str) -> Tuple[str, Dict[int, str]]:
     """Replace emoji chars(Some emoji won't be properly processed by core nlp！) by U+FFFD,
     then returns the replaced text and a Position->Char backup map for restoring later.
 
@@ -41,10 +47,48 @@ def restore_emoji(data: Dict[str, Any], emoji_map: Dict[int, str]):
         return
     for sentence_obj in data['sentences']:
         for token_obj in sentence_obj['tokens']:
-            emojis = ''
-            for i in range(token_obj['characterOffsetBegin'], token_obj['characterOffsetEnd']):
-                emoji = emoji_map.get(i, None)
+            word = ''
+            for i, c, in enumerate(token_obj['word']):
+                emoji = emoji_map.get(
+                    i + token_obj['characterOffsetBegin'], None)
                 if emoji:
-                    emojis += emoji
-            if emojis:
-                token_obj['word'] = token_obj['originalText'] = emojis
+                    word += emoji
+                else:
+                    word += c
+            token_obj['word'] = word
+
+
+def chain_words(data: Dict[str, Any]) -> List[str]:
+    return [
+        token['word']
+        for token in chain.from_iterable(
+            sent['tokens'] for sent in data['sentences']
+        )
+    ]
+
+
+WORD_SEP = ' '
+
+
+def join_chain_words(data: Dict[str, Any], s: str = WORD_SEP) -> str:
+    return s.join(chain_words(data))
+
+
+def extract_words(data: Dict[str, Any]) -> List[List[str]]:
+    result = list()
+    for sent in data['sentences']:
+        ls = list()
+        for token_obj in sent['tokens']:
+            ls.append(token_obj['word'])
+        result.append(ls)
+    return result
+
+
+def join_extract_words(data: Dict[str, Any], word_sep: str = WORD_SEP, line_sep=os.linesep) -> str:
+    result = list()
+    for sent in data['sentences']:
+        ls = list()
+        for token_obj in sent['tokens']:
+            ls.append(token_obj['word'])
+        result.append(word_sep.join(ls))
+    return line_sep.join(result)

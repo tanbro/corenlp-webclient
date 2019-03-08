@@ -3,9 +3,18 @@ from typing import Any, Dict
 from .baseannotator import BaseAnnotator
 
 
-def make_properties(*annotators: BaseAnnotator)->Dict[str, Any]:
+def create_annotator(annotator_class: type, *args, **kwargs) -> BaseAnnotator:
+    options = annotator_class.options_class(*args, **kwargs)
+    return annotator_class(options)
+
+
+def make_properties(*annotators: BaseAnnotator) -> Dict[str, Any]:
     properties_dict = {'outputFormat': 'json'}
     for annotator in annotators:
+        print('>>>>', annotator)
+        print('>>>> type:', type(annotator))
+        print('>>>> name:', annotator.name)
+        print('>>>> clas: ', annotator.options_class)
         if 'annotators' not in properties_dict:
             properties_dict['annotators'] = annotator.name
         else:
