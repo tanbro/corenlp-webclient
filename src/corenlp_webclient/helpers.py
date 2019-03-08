@@ -1,13 +1,19 @@
 import os
 import re
 from itertools import chain
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Type
 
 from emoji_data import EmojiData
 
-EmojiData.initial()
+from .annotators import BaseAnnotator
 
-REPLACEMENT = chr(0xFFFD)
+__all__ = [
+    'REPLACEMENT', 'WORD_SEP', 'rm_cjk_space', 'rm_emoji', 'backup_emoji', 'restore_emoji',
+    'chain_words', 'join_chain_words', 'extract_words', 'join_extract_words',
+    'create_annotator', 'make_properties'
+]
+
+EmojiData.initial()
 
 REGEX_CJK_SPACE = re.compile(r'(?P<c>[\u2E80-\u9FFF])(\s+)')
 
@@ -22,6 +28,9 @@ def rm_cjk_space(s):  # type: (str)->str
 
 def rm_emoji(s):  # type: (str)->str
     return EmojiData.get_regex_pattern().sub('', s)
+
+
+REPLACEMENT = chr(0xFFFD)
 
 
 def backup_emoji(text: str) -> Tuple[str, Dict[int, str]]:
@@ -92,3 +101,21 @@ def join_extract_words(data: Dict[str, Any], word_sep: str = WORD_SEP, line_sep=
             toks.append(token_obj['word'])
         result.append(word_sep.join(toks))
     return line_sep.join(result)
+
+
+def create_annotator(annotator_class: Type[BaseAnnotator], *args, **kwargs) -> BaseAnnotator:
+    options = annotator_class.options_class(*args, **kwargs)
+    return annotator_class(options)
+
+
+def make_properties(*annotators: BaseAnnotator) -> Dict[str, Any]:
+    properties_dict = {'outputFormat': 'json'}
+    for annotator in annotators:
+        if 'annotators' not in properties_dict:
+            properties_dict['annotators'] = annotator.name
+        else:
+            properties_dict['annotators'] += ',{}'.format(annotator.name)
+        options_dict = annotator.make_options_dict()
+        if options_dict:
+            properties_dict.update(options_dict)
+    return properties_dict
