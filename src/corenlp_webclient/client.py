@@ -6,20 +6,28 @@ from typing import List, Optional, Union
 import requests
 
 from .annotators import BaseAnnotator
-from .helpers import backup_emoji, restore_emoji, rm_cjk_space, make_properties
+from .helpers import backup_emoji, make_properties, restore_emoji, rm_cjk_space
 
 __all__ = ['CoreNlpWebClient']
 
 
-class CoreNlpWebClient:
-    def __init__(self, url: str, session: Optional[requests.Session] = None):
+class CoreNlpWebClient:  # pylint:disable=too-few-public-methods
+    DEFAULT_TIMEOUT = 60
+
+    def __init__(self, url: str, session: Optional[requests.Session] = None, timeout: Union[int, float] = None):
         self._url = url
         self._session = session
+        self._timeout = timeout
 
-    def api_call(self, text: str, annotators: Union[List[BaseAnnotator], BaseAnnotator, None] = None):
+    def api_call(self, text: str, annotators: Union[List[BaseAnnotator], BaseAnnotator] = None, timeout: Union[int, float] = None):
         text = text.strip()
         text = rm_cjk_space(text)
         text, emoji_map = backup_emoji(text)
+        if timeout is None:
+            if self._timeout is None:
+                timeout = self.DEFAULT_TIMEOUT
+            else:
+                timeout = self._timeout
         if annotators is None:
             annotators = list()
         elif not isinstance(annotators, Iterable):
@@ -33,7 +41,7 @@ class CoreNlpWebClient:
             self._url,
             params={'properties': json.dumps(properties)},
             data=codecs.encode(text, 'utf-8'),
-            timeout=15,
+            timeout=timeout,
         )
         response.raise_for_status()
         data = response.json()
