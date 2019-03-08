@@ -25,8 +25,6 @@ class CoreNlpWebClient:
         elif not isinstance(annotators, Iterable):
             annotators = (annotators,)
         properties = make_properties(*annotators)
-        from pprint import pprint
-        pprint(properties)
         if self._session:
             sender = self._session
         else:
