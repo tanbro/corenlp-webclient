@@ -10,7 +10,10 @@ def _snake_to_camel(s):  # type: (str)->str
     return parts[0] + ''.join([w.title() for w in parts])
 
 
-class BaseAnnotator:  # pylint:disable=too-few-public-methods
+# pylint:disable=too-few-public-methods
+
+
+class BaseAnnotator:
     name: str = ''
     options_class: Type[BaseOptions] = BaseOptions
 
@@ -31,6 +34,6 @@ class BaseAnnotator:  # pylint:disable=too-few-public-methods
         return self._options_dict
 
 
-class WordsToSentenceAnnotator(BaseAnnotator):  # pylint:disable=too-few-public-methods
+class WordsToSentenceAnnotator(BaseAnnotator):
     name = 'ssplit'
     options_class = WordsToSentenceOptions
