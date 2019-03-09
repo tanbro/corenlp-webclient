@@ -113,6 +113,6 @@ def make_properties(*annotators: BaseAnnotator) -> Dict[str, Any]:
         if 'annotators' not in properties_dict:
             properties_dict['annotators'] = annotator.name
         else:
-            properties_dict['annotators'] += ',{}'.format(annotator.name)
+            properties_dict['annotators'] += f',{annotator.name}'
         properties_dict.update(annotator.options_dict)
     return properties_dict
