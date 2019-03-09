@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Type
+from typing import Any, Dict, Type
 
 from .options import BaseOptions, WordsToSentenceOptions
 
@@ -17,7 +17,7 @@ class BaseAnnotator:
     name: str = ''
     options_class: Type[BaseOptions] = BaseOptions
 
-    def __init__(self, options: Optional[BaseOptions] = None):
+    def __init__(self, options: BaseOptions = None):
         self._options = options
         self._options_dict = self.make_options_dict()
 

@@ -1,7 +1,6 @@
 import codecs
 import json
-from collections.abc import Iterable
-from typing import Optional, Union, Iterator
+from typing import Iterable, Union
 
 import requests
 
@@ -14,12 +13,12 @@ __all__ = ['CoreNlpWebClient']
 class CoreNlpWebClient:  # pylint:disable=too-few-public-methods
     DEFAULT_TIMEOUT = 60
 
-    def __init__(self, url: str, session: Optional[requests.Session] = None, timeout: Union[int, float] = None):
+    def __init__(self, url: str, session: requests.Session = None, timeout: Union[int, float] = None):
         self._url = url
         self._session = session
         self._timeout = timeout
 
-    def api_call(self, text: str, annotators: Union[Iterator[BaseAnnotator], BaseAnnotator] = None, timeout: Union[int, float] = None):
+    def api_call(self, text: str, annotators: Union[Iterable[BaseAnnotator], BaseAnnotator] = None, timeout: Union[int, float] = None):
         text = text.strip()
         text = rm_cjk_space(text)
         text, emoji_map = backup_emoji(text)

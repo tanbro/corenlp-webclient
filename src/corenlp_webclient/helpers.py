@@ -58,8 +58,7 @@ def restore_emoji(data: Dict[str, Any], emoji_map: Dict[int, str]):
         for token_obj in sentence_obj['tokens']:
             word = ''
             for i, c, in enumerate(token_obj['word']):
-                emoji = emoji_map.get(
-                    i + token_obj['characterOffsetBegin'], None)
+                emoji = emoji_map.get(i + token_obj['characterOffsetBegin'], None)
                 if emoji:
                     word += emoji
                 else:
