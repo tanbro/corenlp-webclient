@@ -16,6 +16,17 @@ def make_annotator(*args, **kwargs):
 
 
 class SsplitTestCase(unittest.TestCase):
+
+    def test_one_simple_no_annotator(self):
+        text = '''
+        快速的棕色狐狸跳过了懒惰的狗
+        '''
+        segmented = '''
+        快速 的 棕色 狐狸 跳过 了 懒惰 的 狗
+        '''
+        result = CoreNlpWebClient(URL).api_call(text)
+        self.assertEqual(join_chain_words(result), segmented.strip())
+
     def test_one_simple_no_options(self):
         text = '''
         快速的棕色狐狸跳过了懒惰的狗
