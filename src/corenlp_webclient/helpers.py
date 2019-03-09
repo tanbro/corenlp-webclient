@@ -58,8 +58,7 @@ def restore_emoji(data: Dict[str, Any], emoji_map: Dict[int, str]):
         for token_obj in sentence_obj['tokens']:
             word = ''
             for i, c, in enumerate(token_obj['word']):
-                emoji = emoji_map.get(
-                    i + token_obj['characterOffsetBegin'], None)
+                emoji = emoji_map.get(i + token_obj['characterOffsetBegin'], None)
                 if emoji:
                     word += emoji
                 else:
@@ -115,7 +114,5 @@ def make_properties(*annotators: BaseAnnotator) -> Dict[str, Any]:
             properties_dict['annotators'] = annotator.name
         else:
             properties_dict['annotators'] += ',{}'.format(annotator.name)
-        options_dict = annotator.make_options_dict()
-        if options_dict:
-            properties_dict.update(options_dict)
+        properties_dict.update(annotator.options_dict)
     return properties_dict
