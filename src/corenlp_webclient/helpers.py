@@ -3,67 +3,63 @@ import re
 from itertools import chain
 from typing import Any, Dict, List, Tuple, Type
 
-from emoji_data import EmojiData
-
 from .annotators import BaseAnnotator
 
 __all__ = [
-    'REPLACEMENT', 'WORD_SEP', 'rm_cjk_space', 'rm_emoji', 'backup_emoji', 'restore_emoji',
+    'REPLACEMENT', 'WORD_SEP',
     'chain_words', 'join_chain_words', 'extract_words', 'join_extract_words',
     'create_annotator', 'make_properties'
 ]
 
-EmojiData.initial()
-
-REGEX_CJK_SPACE = re.compile(r'(?P<c>[\u2E80-\u9FFF])(\s+)')
+# REGEX_CJK_SPACE = re.compile(r'(?P<c>[\u2E80-\u9FFF])(\s+)')
 
 
-def rm_cjk_space(s):  # type: (str)->str
-    """消除中文之间的空格
+# def rm_cjk_space(s):  # type: (str)->str
+#     """消除中文之间的空格
 
-    中文之间的空格会影响 CoreNLP 分词!
-    """
-    return REGEX_CJK_SPACE.sub(r'\g<c>', s.strip())
-
-
-def rm_emoji(s):  # type: (str)->str
-    return EmojiData.get_regex_pattern().sub('', s)
+#     中文之间的空格会影响 CoreNLP 分词!
+#     """
+#     return REGEX_CJK_SPACE.sub(r'\g<c>', s.strip())
 
 
-REPLACEMENT = chr(0xFFFD)
+# def rm_emoji(s):  # type: (str)->str
+#     return EmojiData.get_regex_pattern().sub('', s)
 
 
-def backup_emoji(text: str) -> Tuple[str, Dict[int, str]]:
-    """Replace emoji chars(Some emoji won't be properly processed by core nlp！) by U+FFFD,
-    then returns the replaced text and a Position->Char backup map for restoring later.
-
-    :param text: replace emoji in the text
-    :return: replaced text and original emoji's position-chat backup map
-    """
-    stack = dict()
-    new_text = ''
-    for i, c in enumerate(text):
-        if ord(c) in EmojiData:
-            stack[i] = c
-            new_text += REPLACEMENT
-        else:
-            new_text += c
-    return new_text, stack
+# REPLACEMENT = chr(0xFFFD)
 
 
-def restore_emoji(data: Dict[str, Any], emoji_map: Dict[int, str]):
-    if not emoji_map:
-        return
-    for sentence_obj in data['sentences']:
-        for token_obj in sentence_obj['tokens']:
-            word = ''
-            for i, c, in enumerate(token_obj['word']):
-                emoji = emoji_map.get(i + token_obj['characterOffsetBegin'], None)
-                if emoji:
-                    word += emoji
-                else:
-                    word += c
-            token_obj['word'] = word
+# def backup_emoji(text: str) -> Tuple[str, Dict[int, str]]:
+#     """Replace emoji chars(Some emoji won't be properly processed by core nlp！) by U+FFFD,
+#     then returns the replaced text and a Position->Char backup map for restoring later.
+
+#     :param text: replace emoji in the text
+#     :return: replaced text and original emoji's position-chat backup map
+#     """
+#     stack = dict()
+#     new_text = ''
+#     for i, c in enumerate(text):
+#         if ord(c) in EmojiData:
+#             stack[i] = c
+#             new_text += REPLACEMENT
+#         else:
+#             new_text += c
+#     return new_text, stack
+
+
+# def restore_emoji(data: Dict[str, Any], emoji_map: Dict[int, str]):
+#     if not emoji_map:
+#         return
+#     for sentence_obj in data['sentences']:
+#         for token_obj in sentence_obj['tokens']:
+#             word = ''
+#             for i, c, in enumerate(token_obj['word']):
+#                 emoji = emoji_map.get(i + token_obj['characterOffsetBegin'], None)
+#                 if emoji:
+#                     word += emoji
+#                 else:
+#                     word += c
+#             token_obj['word'] = word
 
 
 def chain_words(data: Dict[str, Any]) -> List[str]:
