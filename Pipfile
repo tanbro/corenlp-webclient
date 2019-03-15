@@ -5,6 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 corenlp-webclient = {editable = true,path = "."}
+pytest = "*"
+python-dotenv = "*"
 autopep8 = "*"
 pylint = "*"
 jupyter = "*"
@@ -13,4 +15,3 @@ twine = "*"
 [packages]
 
 [requires]
-
