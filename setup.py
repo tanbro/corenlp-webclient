@@ -35,7 +35,6 @@ setup(
     install_requires=[
         'dataclasses;python_version<"3.7"',
         'dataclasses-jsonschema',
-        'emoji-data',
         'requests',
     ],
 

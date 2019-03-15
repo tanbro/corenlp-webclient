@@ -5,7 +5,7 @@ from typing import Iterable, Union
 import requests
 
 from .annotators import BaseAnnotator
-from .helpers import backup_emoji, make_properties, restore_emoji, rm_cjk_space
+from .helpers import create_annotator, make_properties
 
 __all__ = ['CoreNlpWebClient']
 
@@ -20,8 +20,6 @@ class CoreNlpWebClient:  # pylint:disable=too-few-public-methods
 
     def api_call(self, text: str, annotators: Union[Iterable[BaseAnnotator], BaseAnnotator] = None, timeout: Union[int, float] = None):
         text = text.strip()
-        text = rm_cjk_space(text)
-        text, emoji_map = backup_emoji(text)
         if timeout is None:
             if self._timeout is None:
                 timeout = self.DEFAULT_TIMEOUT
@@ -44,5 +42,4 @@ class CoreNlpWebClient:  # pylint:disable=too-few-public-methods
         )
         response.raise_for_status()
         data = response.json()
-        restore_emoji(data, emoji_map)
         return data
