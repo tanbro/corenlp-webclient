@@ -1,13 +1,10 @@
 import os
 import unittest
 
-from dotenv import load_dotenv
-
 from corenlp_webclient import (CoreNlpWebClient, WordsToSentenceAnnotator,
                                create_annotator, join_chain_words,
                                join_extract_words)
 
-load_dotenv()
 URL = os.environ['CORENLP_SERVER_URL']
 
 

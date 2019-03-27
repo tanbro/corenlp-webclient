@@ -27,27 +27,14 @@ setup(
         'write_to': 'src/corenlp_webclient/version.py',
     },
     setup_requires=[
-        'pytest-runner',
         'setuptools_scm',
         'setuptools_scm_git_archive',
     ],
-
     install_requires=[
         'dataclasses;python_version<"3.7"',
         'dataclasses-jsonschema',
         'requests',
     ],
-
-    tests_require=[
-        'pytest',
-        'python-dotenv',
-    ],
-    test_suite='tests',
-
-    python_requires='>=3.6',
-
-    package_data={},
-
     classifiers=[
         'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
         'Development Status :: 2 - Pre-Alpha',
