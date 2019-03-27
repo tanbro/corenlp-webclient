@@ -5,7 +5,7 @@ from typing import Iterable, Union
 import requests
 
 from .annotators import BaseAnnotator
-from .helpers import create_annotator, make_properties
+from .helpers import make_properties
 
 __all__ = ['CoreNlpWebClient']
 
